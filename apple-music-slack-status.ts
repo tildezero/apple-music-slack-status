@@ -1,4 +1,4 @@
-// script.ts
+#!/usr/bin/env deno run -A
 import { run } from "https://deno.land/x/jxa_run@v0.0.3/mod.ts";
 import type {} from "https://deno.land/x/jxa_run@v0.0.3/global.d.ts";
 import type { iTunes } from "https://deno.land/x/jxa_run@v0.0.3/types/system-apps/ITunes.d.ts";

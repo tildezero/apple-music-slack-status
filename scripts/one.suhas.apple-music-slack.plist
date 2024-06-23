@@ -6,14 +6,16 @@
 	<dict>
 		<key>PATH</key>
 		<string>/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>SLACK_TOKEN</key>
+        <string>SLACK TOKEN GOES HERE</string>
 	</dict>
 	<key>KeepAlive</key>
 	<true/>
 	<key>Label</key>
-	<string>moe.yuru.music-rpc</string>
+	<string>one.suhas.apple-music-slack</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>./music-rpc.ts</string>
+		<string>./apple-music-slack-status.ts</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
