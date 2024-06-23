@@ -10,6 +10,7 @@ const slack = SlackAPI(Deno.env.get('SLACK_TOKEN') as string)
 
 // helper functions
 
+const SLEEP_TIME = 5000
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function playerState(): Promise<string> {
@@ -24,7 +25,9 @@ async function getCurrentTrack() {
         const music = Application("Music") as unknown as iTunes
         return {
             name: music.currentTrack().name(),
-            artist: music.currentTrack().artist()
+            artist: music.currentTrack().artist(),
+            duration: music.currentTrack().duration(),
+            playerPosition: music.playerPosition()
         }
     })
 }
@@ -40,7 +43,18 @@ async function main() {
         const open = await isOpen()
         if (!open) {
             // apple music isn't open, so if the status has the apple music emoji, clear it
+            const currentProfile = await slack.users.profile.get()
+            if (currentProfile.profile.status_emoji == ":applemusic:") {
+                await slack.users.profile.set({
+                    profile: {
+                        status_text: "",
+                        status_emoji: ""
+                    }
+                })
+            }
             // go to sleep for some timeout
+            await sleep(SLEEP_TIME)
+            continue
         }
         const state = await playerState()
         if (state == 'playing') {
@@ -52,7 +66,21 @@ async function main() {
                     status_expiration: 0
                 }
             })
-            await sleep(5000)
+            await sleep(SLEEP_TIME)
+            continue
+        }
+        if (state == 'paused' || state == 'stopped') {
+            const currentProfile = await slack.users.profile.get()
+            if (currentProfile.profile.status_emoji == ":applemusic:") {
+                await slack.users.profile.set({
+                    profile: {
+                        status_text: "",
+                        status_emoji: ""
+                    }
+                })
+            }
+            await sleep(SLEEP_TIME)
+            continue
         }
     }
 }
