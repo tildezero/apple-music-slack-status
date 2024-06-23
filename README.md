@@ -2,6 +2,8 @@
 
 - heavily inspired by [NextFire/apple-music-discord-rpc](https://github.com/NextFire/apple-music-discord-rpc)
 
+**Note**: this is for mac only (right now) since i'm using applescript
+
 ## Instructions
 - install deno, and then run this
 - ensure you read the instructions in the install script since you need to paste a slack token in for it to work
