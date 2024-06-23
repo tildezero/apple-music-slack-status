@@ -10,7 +10,7 @@ const slack = SlackAPI(Deno.env.get('SLACK_TOKEN') as string)
 
 // helper functions
 
-const SLEEP_TIME = 5000
+const SLEEP_TIME = 15000
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function playerState(): Promise<string> {
@@ -39,10 +39,10 @@ async function isOpen(): Promise<boolean> {
 }
 
 async function main() {
+    // TODO: use a file for config key
     while (true) {
         const open = await isOpen()
         if (!open) {
-            // apple music isn't open, so if the status has the apple music emoji, clear it
             const currentProfile = await slack.users.profile.get()
             if (currentProfile.profile.status_emoji == ":applemusic:") {
                 await slack.users.profile.set({
@@ -52,7 +52,6 @@ async function main() {
                     }
                 })
             }
-            // go to sleep for some timeout
             await sleep(SLEEP_TIME)
             continue
         }
