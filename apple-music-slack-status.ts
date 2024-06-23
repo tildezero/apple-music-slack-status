@@ -1,10 +1,27 @@
-#!/usr/bin/env deno run -A
+#!/usr/bin/env deno run --allow-env --allow-run --allow-net --allow-read --allow-write --unstable-ffi --allow-ffi
 import { run } from "https://deno.land/x/jxa_run@v0.0.3/mod.ts";
 import type {} from "https://deno.land/x/jxa_run@v0.0.3/global.d.ts";
 import type { iTunes } from "https://deno.land/x/jxa_run@v0.0.3/types/system-apps/ITunes.d.ts";
 import { SlackAPI } from "https://deno.land/x/deno_slack_api@2.1.1/mod.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts"
 
+const slackToken = Deno.env.get('SLACK_TOKEN')
+if (!slackToken) {
+    console.error(`${Date.now()} - No slack API token!`)
+    await run(() => {
+        const app = Application.currentApplication()
+
+        //@ts-ignore: this works
+        app.includeStandardAdditions = true 
+    
+        app.displayNotification("No slack api token!", {
+            withTitle: "apple-music-slack-status",
+            subtitle: "Add one using the install script."
+        })
+
+    })
+    Deno.exit(1)
+}
 const slack = SlackAPI(Deno.env.get('SLACK_TOKEN') as string)
 
 
