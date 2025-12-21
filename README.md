@@ -7,7 +7,7 @@
 ## Instructions
 - install deno, and then run this
 - ensure you read the instructions in the install script since you need to paste a slack token in for it to work
-- the install script will set the status script as a login item (if you don't want that, put a SLACK_TOKEN obtained from https://suhas.url.lol/amms in .env and then just run the script as normal)
+- the install script will set the status script as a login item (if you don't want that, put a SLACK_TOKEN obtained from https://suhas.url.lol/amss in .env and then just run the script as normal)
 ```
 git clone https://github.com/tildezero/apple-music-slack-status
 cd apple-music-slack-status/
